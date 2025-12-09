@@ -1,0 +1,24 @@
+name: CI Pipeline                           # The name of the workflow shown in GitHub Actions
+
+on:                                         # Defines when the workflow should run
+  push:                                     # Trigger the workflow when code is pushed
+    branches: [ main ]                      # Only run when pushing to the main branch
+
+jobs:                                       # A workflow contains one or more jobs
+  build:                                    # Name of the job
+    runs-on: ubuntu-latest                  # The virtual machine used to run the job
+
+    steps:                                  # Ordered list of actions (tasks) to run inside this job
+      - name: Checkout Code                 # Step 1: a readable name for the action
+        uses: actions/checkout@v3           # Uses the official GitHub action to download your repo code
+
+      - name: Set up Node.js                # Step 2: install Node.js on the runner
+        uses: actions/setup-node@v3         # GitHub's official Node.js setup action
+        with:
+          node-version: 16                  # Specifies the exact Node.js version to use
+
+      - name: Install dependencies          # Step 3: install your project's NPM packages
+        run: npm install                    # Runs "npm install" inside the VM
+
+      - name: Run tests                     # Step 4: execute your test suite
+        run: npm test                       # Runs "npm test" using your project's test scripts
